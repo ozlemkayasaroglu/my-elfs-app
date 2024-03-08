@@ -1,27 +1,24 @@
-import mongoose from 'mongoose';
-import jokemodel from './models/jokemodel.js';
+import mongoose from "mongoose";
 
 
-const url="mongodb+srv://r00t:<password>@my-elfs-app.kgbmsqt.mongodb.net/";
-
-async function main(){
-  mongoose
-  .connect(url)
-  .then((con) => {
-    console.log("Bağlantı başarılı");
-
+const model = mongoose.model(
+  "jokes",
+  new mongoose.Schema({
+    text: String,
+    image: String,
+    xLink: String,
   })
-  .catch((err) => {
-    console.log("Bağlantı Başarısız. ", err);
+);
+
+main();
+async function main(){
+  await mongoose.connect(
+    "mongodb+srv://r00t:p0rtakal@my-elfs-app.kgbmsqt.mongodb.net/my-elfs-app").then(()=> {
+    console.log("Baglantı kuruldu");
+  }).catch((err) => {
+    console.log("Baglantı kurulamadı. ", err);
+    process.exit();
   });
 }
-async function Connect() {
-  mongoose
-    .connect(url)
-    .then((con) => {
-      console.log("Bağlantı başarılı");
-    })
-    .catch((err) => {
-      console.log("Bağlantı Başarısız. ", err);
-    });
-}
+const jokes = await model.find();
+console.log(jokes);
